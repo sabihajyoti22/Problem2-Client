@@ -1,0 +1,14 @@
+{
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "prettier.singleQuote": true,
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "eslint.validate": [
+        "javascript"
+    ]
+}
