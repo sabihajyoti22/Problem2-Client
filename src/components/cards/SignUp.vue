@@ -90,6 +90,11 @@
           >Sign In</span>
         </div>
 
+        <div v-if="success" class="text-center mt-3">
+          <div>Visit this link to activate your account</div>
+          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link>
+        </div>
+
         <button
           type="submit"
           :disabled="disableSignUp"
@@ -109,8 +114,8 @@ import { useAuthStore } from '../../store/module/auth'
     emits: ['signin'],
     data() {
       return {
-        showPass: false,
-        layout: 1,
+        showPass: false as boolean,
+        layout: 1 as number,
         user: {
           email: '',
           firstname: '',
@@ -118,7 +123,8 @@ import { useAuthStore } from '../../store/module/auth'
           mobile: '',
           password: ''
         } as user,
-        error: ''
+        error: '' as string,
+        success: false as boolean
       }
     },
     computed: {
@@ -129,18 +135,15 @@ import { useAuthStore } from '../../store/module/auth'
     watch: {
       user:{
         handler(){
-          if(this.error){
+          if(this.error || this.success){
             this.error = ''
+            this.success = false
           }
         },
         deep: true
       }
     },
     created(){
-      // if(JSON.parse(window.localStorage.getItem('id'))){
-      //   this.rememberMe = true
-      //   this.user.userid = JSON.parse(window.localStorage.getItem('id'))
-      // }
     },
     methods: {
       signUp(){
@@ -151,8 +154,16 @@ import { useAuthStore } from '../../store/module/auth'
         }else{
           useAuthStore().signUp(this.user).then((res: any) => {
             console.log(res)
+            this.success = true
           }).catch((err: any) => {
-            this.error = err.response.data.message
+            if(err.status === 409){
+              if(err.response.data.data.activate){
+                this.error = err.response.data.message +'with id: '+ err.response.data.data._id
+              }else{
+                this.success = true
+              }
+            }
+            useAuthStore().setUser(err.response.data.data)
           })
         }
       }

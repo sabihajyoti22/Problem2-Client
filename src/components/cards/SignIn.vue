@@ -11,7 +11,7 @@
         @submit.prevent="signIn"
       >
         <input
-          v-model="user.userid"
+          v-model="user._id"
           type="text"
           placeholder="User ID"
           class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
@@ -65,7 +65,7 @@
             v-model="rememberMe"
             type="checkbox"
             name="checkbox"
-            class="accent-primary mb-5"
+            class="accent-secondary mb-5"
           >
           <span class="ml-3 font-medium text-sm">Remember Me</span>
         </label>
@@ -90,16 +90,17 @@
 </template>
 
 <script lang="ts">
+  import { useAuthStore } from '../../store/module/auth';
 
   export default {
     emits: ['signup'],
     data() {
       return {
-        rememberMe: false,
+        rememberMe: false as boolean,
         showPass: false,
         layout: 1,
         user: {
-          userid: '',
+          _id: '',
           password: ''
         },
         error: ''
@@ -107,22 +108,26 @@
     },
     computed: {
       disableSignIn(){
-        return !this.user.userid || !this.user.password
+        return !this.user._id || !this.user.password
       },
     },
     created(){
-      // if(JSON.parse(window.localStorage.getItem('id'))){
-      //   this.rememberMe = true
-      //   this.user.userid = JSON.parse(window.localStorage.getItem('id'))
-      // }
+      if(JSON.parse(window.localStorage.getItem('id') || '')){
+        this.rememberMe = true
+        this.user._id = JSON.parse(window.localStorage.getItem('id') || '')
+      }
     },
     methods: {
       signIn(){
-        // if(this.rememberMe){
-        //   window.localStorage.setItem('id', JSON.stringify(res.data.useremail))
-        // }else{
-        //   window.localStorage.removeItem('id')
-        // }
+        useAuthStore().signIn(this.user).then((res: any) => {
+          if(this.rememberMe){
+            window.localStorage.setItem('id', JSON.stringify(res.data._id))
+          }else{
+            window.localStorage.removeItem('id')
+          }
+        }).catch((err: any) => {
+          this.error = err.response.data.message
+        })
       }
     }
   }
