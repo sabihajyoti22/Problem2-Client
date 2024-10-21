@@ -14,7 +14,7 @@
   export default {
     data() {
       return {
-        userID: '' as string
+        userID: ''
       }
     },
     created(){

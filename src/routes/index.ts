@@ -7,7 +7,7 @@ const router = createRouter({
   history: createWebHistory()
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   if (!useAuthStore().getUser.email && to.name === 'dashboard') {
     return next({ name: 'home' })
   } else {

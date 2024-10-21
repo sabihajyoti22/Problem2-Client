@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import { useAuthStore } from '../store/module/auth';
   export default {
     computed: {
