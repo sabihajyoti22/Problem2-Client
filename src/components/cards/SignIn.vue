@@ -120,6 +120,8 @@
     methods: {
       signIn(){
         useAuthStore().signIn(this.user).then((res: any) => {
+          useAuthStore().setUser(res.data)
+          this.$router.push({name: 'dashboard'})
           if(this.rememberMe){
             window.localStorage.setItem('id', JSON.stringify(res.data._id))
           }else{
