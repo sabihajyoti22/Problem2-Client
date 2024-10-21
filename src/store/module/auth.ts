@@ -1,17 +1,18 @@
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
 const useAuthStore = defineStore('auth', {
   state: () => {
     return {
-      profile: null
+      user: null
     }
   },
   getters: {
-    getProfile: (state) => state.profile
+    getProfile: (state) => state.user
   },
   actions: {
-    setProfile(payload: any) {
-      this.profile = payload
+    signUp(payload: any) {
+      return axios.post('/auth/signup', payload)
     }
   }
 })

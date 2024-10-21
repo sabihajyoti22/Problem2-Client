@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex justify-center items-center bg-violet-500">
-    <SignIn v-if="loggedIn" />
-    <SignUp v-else />
+  <div class="w-full h-full flex justify-center items-center">
+    <SignIn @signup="card = 2" v-if="card === 1" />
+    <SignUp @signin="card = 1" v-else />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import SignUp from '../components/cards/SignUp.vue'
     },
     data() {
       return {
-        loggedIn: false as boolean
+        card: 2 as number
       }
     }
   }
