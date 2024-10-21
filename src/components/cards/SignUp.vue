@@ -1,64 +1,61 @@
 <template>
-  <div>
+  <div class="md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
     <fieldset
-      class="md:w-[450px] bg-white/30 backdrop-blur-[5px] mx-3 md:mx-0 border-2 border-primary p-4 rounded-lg mb-2"
+      class="border-2 border-secondary p-4 rounded-lg mb-2"
     >
-      <legend class="text-2xl text-bold text-white px-1">
+      <legend class="text-2xl text-bold px-1">
         Sign Up
       </legend>
 
       <form
         @submit.prevent="signUp"
       >
-        <label>Email</label>
+        <div class="flex gap-3">
+          <input
+            v-model="user.firstname"
+            type="text"
+            placeholder="First Name"
+            class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
+          >
+            
+          <input
+            v-model="user.lastname"
+            type="text"
+            placeholder="Last Name"
+            class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
+          >
+        </div>
+          
         <input
           v-model="user.email"
-          type="email"
+          type="text"
           placeholder="Email"
-          class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
+          class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
         >
 
-        <label>First Name</label>
-        <input
-          v-model="user.firstname"
-          type="text"
-          placeholder="First Name"
-          class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
-        >
-
-        <label>Last Name</label>
-        <input
-          v-model="user.lastname"
-          type="text"
-          placeholder="Last Name"
-          class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
-        >
-
-        <label>Mobile Number</label>
         <input
           v-model="user.mobile"
           type="text"
           placeholder="Mobile Number"
-          class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
+          class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
         >
 
         <div class="relative">
-          <label>Password</label>
           <input
             v-model="user.password"
             :type="showPass ? 'text' : 'password'"
             placeholder="Password"
-            class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
+            class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
           >
 
           <div
-            class="absolute top-8 right-1 hover:cursor-pointer"
+            class="absolute top-4 right-4 hover:cursor-pointer"
             @click="showPass = !showPass"
           >
             <svg
               v-if="!showPass"
-              stroke="#3b82f6"
-              fill="#3b82f6"
+              stroke="white"
+              fill="white"
               stroke-width="0"
               viewBox="0 0 16 16"
               height="1em"
@@ -68,8 +65,8 @@
 
             <svg
               v-else
-              stroke="#3b82f6"
-              fill="#3b82f6"
+              stroke="white"
+              fill="white"
               stroke-width="0"
               viewBox="0 0 16 16"
               height="1em"
@@ -86,12 +83,19 @@
           {{ '* '+error }}
         </div>
 
+        <div class="text-center">
+          Already have an account? Then <span
+            class="text-secondary font-bold hover:cursor-pointer hover:underline"
+            @click="$emit('signin')"
+          >Sign In</span>
+        </div>
+
         <button
           type="submit"
           :disabled="disableSignUp"
-          class="w-full rounded p-1 text-center text-white bg-primary disabled:bg-slate-600"
+          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600"
         >
-          Sign up
+          Sign Up
         </button>
       </form>
     </fieldset>
@@ -99,8 +103,10 @@
 </template>
 
 <script lang="ts">
+import { useAuthStore } from '../../store/module/auth'
 
   export default {
+    emits: ['signin'],
     data() {
       return {
         showPass: false,
@@ -111,7 +117,7 @@
           lastname: '',
           mobile: '',
           password: ''
-        },
+        } as user,
         error: ''
       }
     },
@@ -119,6 +125,16 @@
       disableSignUp(){
         return !this.user.email || !this.user.firstname || !this.user.lastname || !this.user.mobile || !this.user.password
       },
+    },
+    watch: {
+      user:{
+        handler(){
+          if(this.error){
+            this.error = ''
+          }
+        },
+        deep: true
+      }
     },
     created(){
       // if(JSON.parse(window.localStorage.getItem('id'))){
@@ -128,11 +144,17 @@
     },
     methods: {
       signUp(){
-        // if(this.rememberMe){
-        //   window.localStorage.setItem('id', JSON.stringify(res.data.useremail))
-        // }else{
-        //   window.localStorage.removeItem('id')
-        // }
+        if(!this.$errorCheck('email', this.user.email)){
+          this.error = 'Invalid email'
+        }else if(!this.$errorCheck('mobile', this.user.mobile)){
+          this.error = 'Invalid mobile number'
+        }else{
+          useAuthStore().signUp(this.user).then((res: any) => {
+            console.log(res)
+          }).catch((err: any) => {
+            this.error = err.response.data.message
+          })
+        }
       }
     }
   }

@@ -1,40 +1,38 @@
 <template>
-  <div>
+  <div class="md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
     <fieldset
-      class="md:w-[450px] bg-white/30 backdrop-blur-[5px] mx-3 md:mx-0 border-2 border-primary p-4 rounded-lg mb-2"
+      class="border-2 border-secondary p-4 rounded-lg mb-2"
     >
       <legend class="text-2xl text-bold text-white px-1">
-        Sign in
+        Sign In
       </legend>
 
       <form
         @submit.prevent="signIn"
       >
-        <label>User ID</label>
         <input
           v-model="user.userid"
           type="text"
           placeholder="User ID"
-          class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
+          class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
         >
 
         <div class="relative">
-          <label>Password</label>
           <input
             v-model="user.password"
             :type="showPass ? 'text' : 'password'"
             placeholder="Password"
-            class="w-full outline-none rounded p-1 mb-3 border focus:border-primary"
+            class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
           >
 
           <div
-            class="absolute top-8 right-1 hover:cursor-pointer"
+            class="absolute top-4 right-4 hover:cursor-pointer"
             @click="showPass = !showPass"
           >
             <svg
               v-if="!showPass"
-              stroke="#3b82f6"
-              fill="#3b82f6"
+              stroke="white"
+              fill="white"
               stroke-width="0"
               viewBox="0 0 16 16"
               height="1em"
@@ -44,8 +42,8 @@
 
             <svg
               v-else
-              stroke="#3b82f6"
-              fill="#3b82f6"
+              stroke="white"
+              fill="white"
               stroke-width="0"
               viewBox="0 0 16 16"
               height="1em"
@@ -69,15 +67,22 @@
             name="checkbox"
             class="accent-primary mb-5"
           >
-          <span class="ml-3 font-medium text-sm text-black/70">Remember Me</span>
+          <span class="ml-3 font-medium text-sm">Remember Me</span>
         </label>
+
+        <div class="text-center">
+          Don't have an account? Then <span
+            class="text-secondary font-bold hover:cursor-pointer hover:underline"
+            @click="$emit('signup')"
+          >Sign Up</span>
+        </div>
 
         <button
           type="submit"
           :disabled="disableSignIn"
-          class="w-full rounded p-1 text-center text-white bg-primary disabled:bg-slate-600"
+          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600"
         >
-          Sign in
+          Sign In
         </button>
       </form>
     </fieldset>
@@ -87,6 +92,7 @@
 <script lang="ts">
 
   export default {
+    emits: ['signup'],
     data() {
       return {
         rememberMe: false,
