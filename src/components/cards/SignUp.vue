@@ -28,7 +28,7 @@
           
         <input
           v-model="user.email"
-          type="text"
+          type="email"
           placeholder="Email"
           class="w-full outline-none rounded-full p-3 mb-3 border border-secondary bg-transparent"
         >
