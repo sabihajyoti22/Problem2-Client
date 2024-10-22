@@ -90,11 +90,11 @@
           >Sign In</span>
         </div>
 
-        <div v-if="success" class="text-center mt-3">
+        <div v-if="id" class="text-center mt-3">
           <div>A link has sent to you by email. Please check it to activate your account.</div>
           <div>or</div>
           <div>Visit this link to activate your account</div>
-          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link>
+          <router-link :to="{name: 'activate', params: {id: id}}" class="text-secondary hover:cursor-pointer hover:underline text-xs">{{ `http://localhost:5173/activate/${id}` }}</router-link>
         </div>
 
         <button
@@ -126,7 +126,7 @@ import { useAuthStore } from '../../store/module/auth'
           password: ''
         } as user,
         error: '' as string,
-        success: false as boolean
+        id: '' as string
       }
     },
     computed: {
@@ -137,9 +137,9 @@ import { useAuthStore } from '../../store/module/auth'
     watch: {
       user:{
         handler(){
-          if(this.error || this.success){
+          if(this.error || this.id){
             this.error = ''
-            this.success = false
+            this.id = ''
           }
         },
         deep: true
@@ -148,7 +148,6 @@ import { useAuthStore } from '../../store/module/auth'
     methods: {
       reset(){
         this.user = {
-          _id: '',
           email: '',
           firstname: '',
           lastname: '',
@@ -165,14 +164,14 @@ import { useAuthStore } from '../../store/module/auth'
         }else{
           useAuthStore().signUp(this.user).then((res: any) => {
             useAuthStore().setUser(res.data)
-            this.success = true
-            this.reset()
+            this.id = res.data._id
+            // this.reset()
           }).catch((err: any) => {
             if(err.status === 409){
               if(err.response.data.data.activate){
                 this.error = err.response.data.message +'with id: '+ err.response.data.data._id
               }else{
-                this.success = true
+                this.id = ''
               }
             }
             useAuthStore().setUser(err.response.data.data)
