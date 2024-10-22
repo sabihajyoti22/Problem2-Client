@@ -158,7 +158,6 @@ import { useAuthStore } from '../../store/module/auth'
         this.error = ''
       },
       signUp(){
-        this.reset()
         if(!this.$errorCheck('email', this.user.email)){
           this.error = 'Invalid email'
         }else if(!this.$errorCheck('mobile', this.user.mobile)){
@@ -167,6 +166,7 @@ import { useAuthStore } from '../../store/module/auth'
           useAuthStore().signUp(this.user).then((res: any) => {
             useAuthStore().setUser(res.data)
             this.success = true
+            this.reset()
           }).catch((err: any) => {
             if(err.status === 409){
               if(err.response.data.data.activate){
