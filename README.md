@@ -1,5 +1,36 @@
-# Vue 3 + TypeScript + Vite
+# Problem 2 - Client
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This project has built with <span style="color: #06b6d4"> Vue </span> , <span style="color: #06b6d4"> Vite </span> & <span style="color: #06b6d4"> Tailwind </span>.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+This project also includes:
+
+- Vue Router - To manage routing system
+- Pinia - For state management
+- Axios - For API integration
+- Eslint - To lint error & warnings
+- Vite - A builder to build the project for production & for better developemnt experience 
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run dev
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### To preview after build
+```
+npm run preview
+```
+
+### For type checking
+```
+npm run type
+```
