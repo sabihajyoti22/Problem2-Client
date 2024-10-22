@@ -10,22 +10,23 @@ This project also includes:
 - Eslint - To lint error & warnings
 - Vite - A builder to build the project for production & for better developemnt experience 
 
-## Project setup
+### Project setup
+#### Install all dependencies
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 ```
 npm run dev
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### To preview after build
+#### To preview after build
 ```
 npm run preview
 ```
