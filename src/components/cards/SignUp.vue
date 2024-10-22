@@ -155,6 +155,7 @@ import { useAuthStore } from '../../store/module/auth'
           this.error = 'Invalid mobile number'
         }else{
           this.loader = true
+          this.error = ''
           useAuthStore().signUp(this.user).then((res: any) => {
             useAuthStore().setUser(res.data)
             this.id = res.data._id
@@ -164,7 +165,7 @@ import { useAuthStore } from '../../store/module/auth'
               if(err.response.data.data.activate){
                 this.error = err.response.data.message +' with id: '+ err.response.data.data._id
               }else{
-                this.id = ''
+                this.id = err.response.data.data._id
               }
             }
             useAuthStore().setUser(err.response.data.data)
