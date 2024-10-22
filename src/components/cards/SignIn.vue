@@ -80,7 +80,7 @@
         <button
           type="submit"
           :disabled="disableSignIn"
-          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600"
+          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
         >
           Sign In
         </button>

@@ -91,14 +91,15 @@
         </div>
 
         <div v-if="success" class="text-center mt-3">
-          <div>Visit this link to activate your account</div>
-          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link>
+          A link has sent to you by email. Please check it to activate your account.
+          <!-- <div>Visit this link to activate your account</div>
+          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link> -->
         </div>
 
         <button
           type="submit"
           :disabled="disableSignUp"
-          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600"
+          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
         >
           Sign Up
         </button>
