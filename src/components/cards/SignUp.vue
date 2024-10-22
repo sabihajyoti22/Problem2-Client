@@ -91,9 +91,10 @@
         </div>
 
         <div v-if="success" class="text-center mt-3">
-          A link has sent to you by email. Please check it to activate your account.
-          <!-- <div>Visit this link to activate your account</div>
-          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link> -->
+          <div>A link has sent to you by email. Please check it to activate your account.</div>
+          <div>or</div>
+          <div>Visit this link to activate your account</div>
+          <router-link :to="{name: 'activate'}" class="text-secondary hover:cursor-pointer hover:underline">http://localhost:5173/activate</router-link>
         </div>
 
         <button
@@ -144,10 +145,20 @@ import { useAuthStore } from '../../store/module/auth'
         deep: true
       }
     },
-    created(){
-    },
     methods: {
+      reset(){
+        this.user = {
+          _id: '',
+          email: '',
+          firstname: '',
+          lastname: '',
+          mobile: '',
+          password: ''
+        }
+        this.error = ''
+      },
       signUp(){
+        this.reset()
         if(!this.$errorCheck('email', this.user.email)){
           this.error = 'Invalid email'
         }else if(!this.$errorCheck('mobile', this.user.mobile)){
