@@ -100,9 +100,10 @@
         <button
           type="submit"
           :disabled="disableSignUp"
-          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
+          class="w-full h-12 rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
         >
-          Sign Up
+          <div v-if="!loader">Sign Up</div>
+          <div class="loader mx-auto" v-else />
         </button>
       </form>
     </fieldset>
@@ -126,7 +127,8 @@ import { useAuthStore } from '../../store/module/auth'
           password: ''
         } as user,
         error: '' as string,
-        id: '' as string
+        id: '' as string,
+        loader: false as boolean
       }
     },
     computed: {
@@ -162,9 +164,11 @@ import { useAuthStore } from '../../store/module/auth'
         }else if(!this.$errorCheck('mobile', this.user.mobile)){
           this.error = 'Invalid mobile number'
         }else{
+          this.loader = true
           useAuthStore().signUp(this.user).then((res: any) => {
             useAuthStore().setUser(res.data)
             this.id = res.data._id
+            this.loader = false
             // this.reset()
           }).catch((err: any) => {
             if(err.status === 409){
@@ -175,6 +179,7 @@ import { useAuthStore } from '../../store/module/auth'
               }
             }
             useAuthStore().setUser(err.response.data.data)
+            this.loader = false
           })
         }
       }

@@ -80,9 +80,10 @@
         <button
           type="submit"
           :disabled="disableSignIn"
-          class="w-full rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
+          class="w-full h-12 rounded-full mt-12 p-3 text-center bg-secondary disabled:bg-slate-600 font-bold"
         >
-          Sign In
+          <div v-if="!loader">Sign In</div>
+          <div class="loader mx-auto" v-else />
         </button>
       </form>
     </fieldset>
@@ -103,7 +104,8 @@
           _id: '',
           password: ''
         },
-        error: ''
+        error: '',
+        loader: false as boolean
       }
     },
     computed: {
@@ -119,6 +121,7 @@
     },
     methods: {
       signIn(){
+        this.loader = true
         useAuthStore().signIn(this.user).then((res: any) => {
           useAuthStore().setUser(res.data)
           this.$router.push({name: 'dashboard'})
@@ -127,8 +130,10 @@
           }else{
             window.localStorage.removeItem('id')
           }
+          this.loader = false
         }).catch((err: any) => {
           this.error = err.response.data.message
+          this.loader = false
         })
       }
     }
