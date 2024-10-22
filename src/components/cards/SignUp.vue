@@ -1,5 +1,5 @@
 <template>
-  <div class="md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
+  <div class="w-full md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
     <fieldset
       class="border-2 border-secondary p-4 rounded-lg mb-2"
     >
@@ -148,16 +148,6 @@ import { useAuthStore } from '../../store/module/auth'
       }
     },
     methods: {
-      reset(){
-        this.user = {
-          email: '',
-          firstname: '',
-          lastname: '',
-          mobile: '',
-          password: ''
-        }
-        this.error = ''
-      },
       signUp(){
         if(!this.$errorCheck('email', this.user.email)){
           this.error = 'Invalid email'
@@ -165,15 +155,15 @@ import { useAuthStore } from '../../store/module/auth'
           this.error = 'Invalid mobile number'
         }else{
           this.loader = true
+          this.error = ''
           useAuthStore().signUp(this.user).then((res: any) => {
             useAuthStore().setUser(res.data)
             this.id = res.data._id
             this.loader = false
-            // this.reset()
           }).catch((err: any) => {
             if(err.status === 409){
               if(err.response.data.data.activate){
-                this.error = err.response.data.message +'with id: '+ err.response.data.data._id
+                this.error = err.response.data.message +' with id: '+ err.response.data.data._id
               }else{
                 this.id = ''
               }

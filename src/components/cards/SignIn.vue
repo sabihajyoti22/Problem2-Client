@@ -1,5 +1,5 @@
 <template>
-  <div class="md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
+  <div class="w-full md:w-[450px] bg-primary py-12 px-4 mx-3 md:mx-0 text-white">
     <fieldset
       class="border-2 border-secondary p-4 rounded-lg mb-2"
     >
