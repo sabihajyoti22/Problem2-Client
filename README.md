@@ -31,7 +31,7 @@ npm run build
 npm run preview
 ```
 
-### For type checking
+#### For type checking
 ```
 npm run type
 ```
