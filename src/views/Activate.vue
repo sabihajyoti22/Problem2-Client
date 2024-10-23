@@ -14,14 +14,13 @@
   export default {
     data() {
       return {
-        userID: '' as string
+        userID: '' as any
       }
     },
     created(){
       if(this.$route.params.id){
-        useAuthStore().activate(this.$route.params.id).then((res: any) => {
-          this.userID = res.data._id
-        })
+        useAuthStore().activate(this.$route.params.id)
+        this.userID = this.$route.params.id
       }
     }
   }

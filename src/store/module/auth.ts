@@ -20,8 +20,19 @@ const useAuthStore = defineStore('auth', {
     setUser(payload: user) {
       this.user = payload
     },
-    activate(payload: any) {
-      return axios.post('/auth/activate', { _id: payload })
+    async activate(payload: any) {
+      try {
+        await axios.post('/auth/activate', { _id: payload })
+      } catch (error: any) {
+        console.log(error)
+      }
+    },
+    async sendMail(payload: any) {
+      try {
+        await axios.post('/auth/sendmail', payload)
+      } catch (error: any) {
+        console.log(error)
+      }
     }
   }
 })

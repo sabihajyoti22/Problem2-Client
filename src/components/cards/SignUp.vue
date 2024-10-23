@@ -160,6 +160,7 @@ import { useAuthStore } from '../../store/module/auth'
             useAuthStore().setUser(res.data)
             this.id = res.data._id
             this.loader = false
+            useAuthStore().sendMail(res.data)
           }).catch((err: any) => {
             if(err.status === 409){
               if(err.response.data.data.activate){
